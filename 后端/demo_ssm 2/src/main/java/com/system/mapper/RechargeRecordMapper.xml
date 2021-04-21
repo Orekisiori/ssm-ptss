@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.mapper.RechargeRecordMapper">
+  <resultMap id="BaseResultMap" type="com.system.domain.RechargeRecord">
+    <id column="recharge_id" jdbcType="INTEGER" property="rechargeId" />
+    <result column="passenger_id" jdbcType="INTEGER" property="passengerId" />
+    <result column="passenger_name" jdbcType="VARCHAR" property="passengerName" />
+    <result column="passenger_identity" jdbcType="VARCHAR" property="passengerIdentity" />
+    <result column="passenger_phone" jdbcType="VARCHAR" property="passengerPhone" />
+    <result column="recharge_account" jdbcType="REAL" property="rechargeAccount" />
+    <result column="option_name" jdbcType="VARCHAR" property="optionName" />
+    <result column="recharge_time" jdbcType="TIMESTAMP" property="rechargeTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    recharge_id, passenger_id, passenger_name, passenger_identity, passenger_phone, recharge_account, 
+    option_name, recharge_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Recharge_record
+    where recharge_id = #{rechargeId,jdbcType=INTEGER}
+  </select>
+  <select id="selectBypassengerId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from Recharge_record
+    where passenger_id = #{passengerId,jdbcType=INTEGER}
+  </select>
+  <select id="selectWallentByPassengerId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select recharge_account
+    from Recharge_record
+    where passenger_id = #{passengerId,jdbcType=INTEGER}
+  </select>
+  <select id="getsumaccount" resultType="com.system.domain.vo.UserRechargeVo">
+    SELECT SUM(recharge_account) as result
+    FROM Recharge_record
+    WHERE option_name = "账户充值"
+  </select>
+  <select id="selectByoptionName" resultMap="BaseResultMap">
+    select *
+    from Recharge_record
+    where option_name = "账户充值"
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from Recharge_record
+    where recharge_id = #{rechargeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.system.domain.RechargeRecord">
+    insert into Recharge_record (recharge_id, passenger_id, passenger_name, 
+      passenger_identity, passenger_phone, recharge_account, 
+      option_name, recharge_time)
+    values (#{rechargeId,jdbcType=INTEGER}, #{passengerId,jdbcType=INTEGER}, #{passengerName,jdbcType=VARCHAR}, 
+      #{passengerIdentity,jdbcType=VARCHAR}, #{passengerPhone,jdbcType=VARCHAR}, #{rechargeAccount,jdbcType=REAL}, 
+      #{optionName,jdbcType=VARCHAR}, #{rechargeTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.system.domain.RechargeRecord">
+    insert into Recharge_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rechargeId != null">
+        recharge_id,
+      </if>
+      <if test="passengerId != null">
+        passenger_id,
+      </if>
+      <if test="passengerName != null">
+        passenger_name,
+      </if>
+      <if test="passengerIdentity != null">
+        passenger_identity,
+      </if>
+      <if test="passengerPhone != null">
+        passenger_phone,
+      </if>
+      <if test="rechargeAccount != null">
+        recharge_account,
+      </if>
+      <if test="optionName != null">
+        option_name,
+      </if>
+      <if test="rechargeTime != null">
+        recharge_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rechargeId != null">
+        #{rechargeId,jdbcType=INTEGER},
+      </if>
+      <if test="passengerId != null">
+        #{passengerId,jdbcType=INTEGER},
+      </if>
+      <if test="passengerName != null">
+        #{passengerName,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerIdentity != null">
+        #{passengerIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerPhone != null">
+        #{passengerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeAccount != null">
+        #{rechargeAccount,jdbcType=REAL},
+      </if>
+      <if test="optionName != null">
+        #{optionName,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeTime != null">
+        #{rechargeTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.system.domain.RechargeRecord">
+    update Recharge_record
+    <set>
+      <if test="passengerId != null">
+        passenger_id = #{passengerId,jdbcType=INTEGER},
+      </if>
+      <if test="passengerName != null">
+        passenger_name = #{passengerName,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerIdentity != null">
+        passenger_identity = #{passengerIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerPhone != null">
+        passenger_phone = #{passengerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeAccount != null">
+        recharge_account = #{rechargeAccount,jdbcType=REAL},
+      </if>
+      <if test="optionName != null">
+        option_name = #{optionName,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeTime != null">
+        recharge_time = #{rechargeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where recharge_id = #{rechargeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.system.domain.RechargeRecord">
+    update Recharge_record
+    set passenger_id = #{passengerId,jdbcType=INTEGER},
+      passenger_name = #{passengerName,jdbcType=VARCHAR},
+      passenger_identity = #{passengerIdentity,jdbcType=VARCHAR},
+      passenger_phone = #{passengerPhone,jdbcType=VARCHAR},
+      recharge_account = #{rechargeAccount,jdbcType=REAL},
+      option_name = #{optionName,jdbcType=VARCHAR},
+      recharge_time = #{rechargeTime,jdbcType=TIMESTAMP}
+    where recharge_id = #{rechargeId,jdbcType=INTEGER}
+  </update>
+</mapper>

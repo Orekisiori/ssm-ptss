@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.mapper.OrderInfoMapper">
+  <resultMap id="BaseResultMap" type="com.system.domain.OrderInfo">
+    <id column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="purchase_date" jdbcType="TIMESTAMP" property="purchaseDate" />
+    <result column="ticket_id" jdbcType="INTEGER" property="ticketId" />
+    <result column="ticket_price" jdbcType="REAL" property="ticketPrice" />
+    <result column="startplace" jdbcType="VARCHAR" property="startplace" />
+    <result column="endplace" jdbcType="VARCHAR" property="endplace" />
+    <result column="starttime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="passenger_id" jdbcType="INTEGER" property="passengerId" />
+    <result column="passenger_name" jdbcType="VARCHAR" property="passengerName" />
+    <result column="passenger_identity" jdbcType="VARCHAR" property="passengerIdentity" />
+    <result column="passenger_phone" jdbcType="VARCHAR" property="passengerPhone" />
+    <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
+    <result column="purchase_number" jdbcType="INTEGER" property="purchaseNumber" />
+    <result column="Order_price" jdbcType="REAL" property="orderPrice" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    order_id, purchase_date, ticket_id, ticket_price, startplace, endplace, starttime, 
+    endtime, passenger_id, passenger_name, passenger_identity, passenger_phone, order_status, 
+    purchase_number, Order_price
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Order_info
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+  <select id="selectCurrentPOrders" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+    select *
+    from Order_info
+    where passenger_id = #{passengerId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAllTicketlist" resultMap="BaseResultMap">
+    select *
+    from Order_info
+  </select>
+  <select id="selectOrder" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from Order_info
+    where startplace like concat ('%',#{searchtext},'%')
+    or endplace like concat ('%',#{searchtext},'%')
+    or order_id like concat ('%',#{searchtext},'%')
+    or order_status like concat ('%',#{searchtext},'%')
+    or passenger_name like concat ('%',#{searchtext},'%')
+  </select>
+  <select id="searchListBycompanyname" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT * FROM Order_info
+    WHERE Order_info.ticket_id IN (
+      SELECT Tickets_info.ticket_id FROM Tickets_info WHERE Tickets_info.airline_name = #{value,jdbcType=VARCHAR}
+    )
+  </select>
+  <select id="getCurrentOrderAccount" parameterType="java.lang.String" resultType="com.system.domain.vo.UserRechargeVo">
+    SELECT SUM(Order_price) as result
+    FROM Order_info
+    WHERE Order_info.ticket_id in (
+       SELECT ticket_id FROM Tickets_info WHERE Tickets_info.airline_name = #{airlineName,jdbcType=VARCHAR}
+    )
+    and  Order_info.order_status = '支付成功'
+    or Order_info.order_status = '已改签'
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from Order_info
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.system.domain.OrderInfo">
+    insert into Order_info (order_id, purchase_date, ticket_id, 
+      ticket_price, startplace, endplace, 
+      starttime, endtime, passenger_id, 
+      passenger_name, passenger_identity, passenger_phone, 
+      order_status, purchase_number, Order_price
+      )
+    values (#{orderId,jdbcType=INTEGER}, #{purchaseDate,jdbcType=TIMESTAMP}, #{ticketId,jdbcType=INTEGER}, 
+      #{ticketPrice,jdbcType=REAL}, #{startplace,jdbcType=VARCHAR}, #{endplace,jdbcType=VARCHAR}, 
+      #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, #{passengerId,jdbcType=INTEGER}, 
+      #{passengerName,jdbcType=VARCHAR}, #{passengerIdentity,jdbcType=VARCHAR}, #{passengerPhone,jdbcType=VARCHAR}, 
+      #{orderStatus,jdbcType=VARCHAR}, #{purchaseNumber,jdbcType=INTEGER}, #{orderPrice,jdbcType=REAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.system.domain.OrderInfo">
+    insert into Order_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="purchaseDate != null">
+        purchase_date,
+      </if>
+      <if test="ticketId != null">
+        ticket_id,
+      </if>
+      <if test="ticketPrice != null">
+        ticket_price,
+      </if>
+      <if test="startplace != null">
+        startplace,
+      </if>
+      <if test="endplace != null">
+        endplace,
+      </if>
+      <if test="starttime != null">
+        starttime,
+      </if>
+      <if test="endtime != null">
+        endtime,
+      </if>
+      <if test="passengerId != null">
+        passenger_id,
+      </if>
+      <if test="passengerName != null">
+        passenger_name,
+      </if>
+      <if test="passengerIdentity != null">
+        passenger_identity,
+      </if>
+      <if test="passengerPhone != null">
+        passenger_phone,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="purchaseNumber != null">
+        purchase_number,
+      </if>
+      <if test="orderPrice != null">
+        Order_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseDate != null">
+        #{purchaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ticketId != null">
+        #{ticketId,jdbcType=INTEGER},
+      </if>
+      <if test="ticketPrice != null">
+        #{ticketPrice,jdbcType=REAL},
+      </if>
+      <if test="startplace != null">
+        #{startplace,jdbcType=VARCHAR},
+      </if>
+      <if test="endplace != null">
+        #{endplace,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="passengerId != null">
+        #{passengerId,jdbcType=INTEGER},
+      </if>
+      <if test="passengerName != null">
+        #{passengerName,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerIdentity != null">
+        #{passengerIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerPhone != null">
+        #{passengerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseNumber != null">
+        #{purchaseNumber,jdbcType=INTEGER},
+      </if>
+      <if test="orderPrice != null">
+        #{orderPrice,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.system.domain.OrderInfo">
+    update Order_info
+    <set>
+      <if test="purchaseDate != null">
+        purchase_date = #{purchaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ticketId != null">
+        ticket_id = #{ticketId,jdbcType=INTEGER},
+      </if>
+      <if test="ticketPrice != null">
+        ticket_price = #{ticketPrice,jdbcType=REAL},
+      </if>
+      <if test="startplace != null">
+        startplace = #{startplace,jdbcType=VARCHAR},
+      </if>
+      <if test="endplace != null">
+        endplace = #{endplace,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        starttime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        endtime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="passengerId != null">
+        passenger_id = #{passengerId,jdbcType=INTEGER},
+      </if>
+      <if test="passengerName != null">
+        passenger_name = #{passengerName,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerIdentity != null">
+        passenger_identity = #{passengerIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerPhone != null">
+        passenger_phone = #{passengerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseNumber != null">
+        purchase_number = #{purchaseNumber,jdbcType=INTEGER},
+      </if>
+      <if test="orderPrice != null">
+        Order_price = #{orderPrice,jdbcType=REAL},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.system.domain.OrderInfo">
+    update Order_info
+    set purchase_date = #{purchaseDate,jdbcType=TIMESTAMP},
+      ticket_id = #{ticketId,jdbcType=INTEGER},
+      ticket_price = #{ticketPrice,jdbcType=REAL},
+      startplace = #{startplace,jdbcType=VARCHAR},
+      endplace = #{endplace,jdbcType=VARCHAR},
+      starttime = #{starttime,jdbcType=TIMESTAMP},
+      endtime = #{endtime,jdbcType=TIMESTAMP},
+      passenger_id = #{passengerId,jdbcType=INTEGER},
+      passenger_name = #{passengerName,jdbcType=VARCHAR},
+      passenger_identity = #{passengerIdentity,jdbcType=VARCHAR},
+      passenger_phone = #{passengerPhone,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=VARCHAR},
+      purchase_number = #{purchaseNumber,jdbcType=INTEGER},
+      Order_price = #{orderPrice,jdbcType=REAL}
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.mapper.TCartMapper">
+  <resultMap id="BaseResultMap" type="com.system.domain.TCart">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cart_id" jdbcType="INTEGER" property="cartId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="f_id" jdbcType="INTEGER" property="fId" />
+    <result column="f_number" jdbcType="INTEGER" property="fNumber" />
+  </resultMap>
+
+  <resultMap id="CartVoResultMap" type="com.system.domain.vo.cartVo">
+    <id column="c.cart_id" jdbcType="INTEGER" property="cartId" />
+    <result column="c.user_id" jdbcType="INTEGER" property="userId" />
+    <result column="f.f_id" jdbcType="INTEGER" property="fId" />
+    <result column="f.f_name" jdbcType="VARCHAR" property="fName" />
+    <result column="f.f_price" jdbcType="BIGINT" property="fPrice" />
+    <result column="c.f_number" jdbcType="INTEGER" property="fNumber" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, cart_id, user_id, f_id, f_number
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_cart
+    where cart_id = #{cartId,jdbcType=INTEGER}
+  </select>
+  <select id="getCartList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_cart
+  </select>
+  <select id="selectByuserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_cart
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="selectCartVoByuserId" parameterType="java.lang.Integer" resultMap="CartVoResultMap">
+   select c.cart_id,c.user_id,f.f_id,f.f_name,f.f_price,c.f_number from t_cart c join t_flow_info f on c.f_id=f.f_id
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="getfNulberByfId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_cart
+    where f_id = #{fId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_cart
+    where  cart_id like concat ('%',#{cartId},'%')
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_cart
+    where cart_id = #{cartId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.system.domain.TCart">
+    insert into t_cart (id, cart_id, user_id,
+      f_id, f_number)
+    values (#{id,jdbcType=INTEGER}, #{cartId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+      #{fId,jdbcType=INTEGER}, #{fNumber,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.system.domain.TCart">
+    insert into t_cart
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cartId != null">
+        cart_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="fId != null">
+        f_id,
+      </if>
+      <if test="fNumber != null">
+        f_number,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cartId != null">
+        #{cartId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="fId != null">
+        #{fId,jdbcType=INTEGER},
+      </if>
+      <if test="fNumber != null">
+        #{fNumber,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.system.domain.TCart">
+    update t_cart
+    <set>
+      <if test="cartId != null">
+        cart_id = #{cartId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="fId != null">
+        f_id = #{fId,jdbcType=INTEGER},
+      </if>
+      <if test="fNumber != null">
+        f_number = #{fNumber,jdbcType=INTEGER},
+      </if>
+    </set>
+    where cart_id = #{cartId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.system.domain.TCart">
+    update t_cart
+    set cart_id = #{cartId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      f_id = #{fId,jdbcType=INTEGER},
+      f_number = #{fNumber,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateNumber" parameterType="com.system.domain.TCart">
+    update t_cart
+    set f_number = #{fNumber,jdbcType=INTEGER}
+    where cart_id = #{cartId,jdbcType=INTEGER}
+  </update>
+</mapper>

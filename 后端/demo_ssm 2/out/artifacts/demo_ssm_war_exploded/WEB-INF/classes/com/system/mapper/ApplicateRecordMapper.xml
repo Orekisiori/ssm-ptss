@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.mapper.ApplicateRecordMapper">
+  <resultMap id="BaseResultMap" type="com.system.domain.ApplicateRecord">
+    <id column="applicate_id" jdbcType="INTEGER" property="applicateId" />
+    <result column="airline_id" jdbcType="INTEGER" property="airlineId" />
+    <result column="airline_name" jdbcType="VARCHAR" property="airlineName" />
+    <result column="request_account" jdbcType="REAL" property="requestAccount" />
+    <result column="airline_identity" jdbcType="VARCHAR" property="airlineIdentity" />
+    <result column="applicate_status" jdbcType="VARCHAR" property="applicateStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    applicate_id, airline_id, airline_name, request_account, airline_identity, applicate_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Applicate_record
+    where applicate_id = #{applicateId,jdbcType=INTEGER}
+  </select>
+  <select id="getList" resultMap="BaseResultMap">
+    select *
+    from Applicate_record
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from Applicate_record
+    where applicate_id = #{applicateId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.system.domain.ApplicateRecord">
+    insert into Applicate_record (applicate_id, airline_id, airline_name, 
+      request_account, airline_identity, applicate_status
+      )
+    values (#{applicateId,jdbcType=INTEGER}, #{airlineId,jdbcType=INTEGER}, #{airlineName,jdbcType=VARCHAR}, 
+      #{requestAccount,jdbcType=REAL}, #{airlineIdentity,jdbcType=VARCHAR}, #{applicateStatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.system.domain.ApplicateRecord">
+    insert into Applicate_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="applicateId != null">
+        applicate_id,
+      </if>
+      <if test="airlineId != null">
+        airline_id,
+      </if>
+      <if test="airlineName != null">
+        airline_name,
+      </if>
+      <if test="requestAccount != null">
+        request_account,
+      </if>
+      <if test="airlineIdentity != null">
+        airline_identity,
+      </if>
+      <if test="applicateStatus != null">
+        applicate_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="applicateId != null">
+        #{applicateId,jdbcType=INTEGER},
+      </if>
+      <if test="airlineId != null">
+        #{airlineId,jdbcType=INTEGER},
+      </if>
+      <if test="airlineName != null">
+        #{airlineName,jdbcType=VARCHAR},
+      </if>
+      <if test="requestAccount != null">
+        #{requestAccount,jdbcType=REAL},
+      </if>
+      <if test="airlineIdentity != null">
+        #{airlineIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="applicateStatus != null">
+        #{applicateStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.system.domain.ApplicateRecord">
+    update Applicate_record
+    <set>
+      <if test="airlineId != null">
+        airline_id = #{airlineId,jdbcType=INTEGER},
+      </if>
+      <if test="airlineName != null">
+        airline_name = #{airlineName,jdbcType=VARCHAR},
+      </if>
+      <if test="requestAccount != null">
+        request_account = #{requestAccount,jdbcType=REAL},
+      </if>
+      <if test="airlineIdentity != null">
+        airline_identity = #{airlineIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="applicateStatus != null">
+        applicate_status = #{applicateStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where applicate_id = #{applicateId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.system.domain.ApplicateRecord">
+    update Applicate_record
+    set airline_id = #{airlineId,jdbcType=INTEGER},
+      airline_name = #{airlineName,jdbcType=VARCHAR},
+      request_account = #{requestAccount,jdbcType=REAL},
+      airline_identity = #{airlineIdentity,jdbcType=VARCHAR},
+      applicate_status = #{applicateStatus,jdbcType=VARCHAR}
+    where applicate_id = #{applicateId,jdbcType=INTEGER}
+  </update>
+</mapper>

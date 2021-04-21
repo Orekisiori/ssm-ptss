@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.mapper.TicketsInfoMapper">
+  <resultMap id="BaseResultMap" type="com.system.domain.TicketsInfo">
+    <id column="ticket_id" jdbcType="INTEGER" property="ticketId" />
+    <result column="airline_id" jdbcType="INTEGER" property="airlineId" />
+    <result column="airline_name" jdbcType="VARCHAR" property="airlineName" />
+    <result column="ticket_startplace" jdbcType="VARCHAR" property="ticketStartplace" />
+    <result column="ticket_endplace" jdbcType="VARCHAR" property="ticketEndplace" />
+    <result column="ticket_begintime" jdbcType="TIMESTAMP" property="ticketBegintime" />
+    <result column="ticket_endtime" jdbcType="TIMESTAMP" property="ticketEndtime" />
+    <result column="ticket_number" jdbcType="INTEGER" property="ticketNumber" />
+    <result column="ticket_price" jdbcType="REAL" property="ticketPrice" />
+    <result column="ticket_img" jdbcType="VARCHAR" property="ticketImg" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ticket_id, airline_id, airline_name, ticket_startplace, ticket_endplace, ticket_begintime, 
+    ticket_endtime, ticket_number, ticket_price, ticket_img
+  </sql>
+  <select id="getList" resultMap="BaseResultMap">
+    select *
+    from Tickets_info
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Tickets_info
+    where ticket_id = #{ticketId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByStartPandEndP" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from Tickets_info
+    where ticket_startplace = #{ticketStartplace,jdbcType=VARCHAR} and ticket_endplace = #{ticketEndplace,jdbcType=VARCHAR} or ticket_startplace = #{ticketEndplace,jdbcType=VARCHAR} and  ticket_endplace = #{ticketStartplace,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAccurateList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from Tickets_info
+
+        where ticket_startplace = #{ticketStartplace,jdbcType=VARCHAR}
+
+        and ticket_endplace = #{ticketEndplace,jdbcType=VARCHAR}
+
+        <![CDATA[ AND ticket_begintime >= #{ticketBegintime,jdbcType=TIMESTAMP} ]]>
+
+        <![CDATA[ AND ticket_endtime <= #{ticketEndtime,jdbcType=TIMESTAMP} ]]>
+  </select>
+  <select id="getCurrentList" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from Tickets_info
+    where airline_name = #{airlineName,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from Tickets_info
+    where ticket_id = #{ticketId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.system.domain.TicketsInfo">
+    insert into Tickets_info (ticket_id, airline_id, airline_name, 
+      ticket_startplace, ticket_endplace, ticket_begintime, 
+      ticket_endtime, ticket_number, ticket_price, ticket_img
+      )
+    values (#{ticketId,jdbcType=INTEGER}, #{airlineId,jdbcType=INTEGER}, #{airlineName,jdbcType=VARCHAR}, 
+      #{ticketStartplace,jdbcType=VARCHAR}, #{ticketEndplace,jdbcType=VARCHAR}, #{ticketBegintime,jdbcType=TIMESTAMP}, 
+      #{ticketEndtime,jdbcType=TIMESTAMP}, #{ticketNumber,jdbcType=INTEGER}, #{ticketPrice,jdbcType=REAL}
+      ),#{ticketImg,jdbcType=VARCHAR}
+  </insert>
+  <insert id="insertSelective" parameterType="com.system.domain.TicketsInfo">
+    insert into Tickets_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ticketId != null">
+        ticket_id,
+      </if>
+      <if test="airlineId != null">
+        airline_id,
+      </if>
+      <if test="airlineName != null">
+        airline_name,
+      </if>
+      <if test="ticketStartplace != null">
+        ticket_startplace,
+      </if>
+      <if test="ticketEndplace != null">
+        ticket_endplace,
+      </if>
+      <if test="ticketBegintime != null">
+        ticket_begintime,
+      </if>
+      <if test="ticketEndtime != null">
+        ticket_endtime,
+      </if>
+      <if test="ticketNumber != null">
+        ticket_number,
+      </if>
+      <if test="ticketPrice != null">
+        ticket_price,
+      </if>
+      <if test="ticketImg != null">
+        ticket_img,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ticketId != null">
+        #{ticketId,jdbcType=INTEGER},
+      </if>
+      <if test="airlineId != null">
+        #{airlineId,jdbcType=INTEGER},
+      </if>
+      <if test="airlineName != null">
+        #{airlineName,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketStartplace != null">
+        #{ticketStartplace,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketEndplace != null">
+        #{ticketEndplace,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketBegintime != null">
+        #{ticketBegintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ticketEndtime != null">
+        #{ticketEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ticketNumber != null">
+        #{ticketNumber,jdbcType=INTEGER},
+      </if>
+      <if test="ticketPrice != null">
+        #{ticketPrice,jdbcType=REAL},
+      </if>
+      <if test="ticketImg != null">
+        #{ticketImg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.system.domain.TicketsInfo">
+    update Tickets_info
+    <set>
+      <if test="airlineId != null">
+        airline_id = #{airlineId,jdbcType=INTEGER},
+      </if>
+      <if test="airlineName != null">
+        airline_name = #{airlineName,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketStartplace != null">
+        ticket_startplace = #{ticketStartplace,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketEndplace != null">
+        ticket_endplace = #{ticketEndplace,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketBegintime != null">
+        ticket_begintime = #{ticketBegintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ticketEndtime != null">
+        ticket_endtime = #{ticketEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ticketNumber != null">
+        ticket_number = #{ticketNumber,jdbcType=INTEGER},
+      </if>
+      <if test="ticketPrice != null">
+        ticket_price = #{ticketPrice,jdbcType=REAL},
+      </if>
+      <if test="ticketImg != null">
+        ticket_img = #{ticketImg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ticket_id = #{ticketId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.system.domain.TicketsInfo">
+    update Tickets_info
+    set airline_id = #{airlineId,jdbcType=INTEGER},
+      airline_name = #{airlineName,jdbcType=VARCHAR},
+      ticket_startplace = #{ticketStartplace,jdbcType=VARCHAR},
+      ticket_endplace = #{ticketEndplace,jdbcType=VARCHAR},
+      ticket_begintime = #{ticketBegintime,jdbcType=TIMESTAMP},
+      ticket_endtime = #{ticketEndtime,jdbcType=TIMESTAMP},
+      ticket_number = #{ticketNumber,jdbcType=INTEGER},
+      ticket_price = #{ticketPrice,jdbcType=REAL}
+      ticket_img = #{ticketImg,jdbcType=VARCHAR},
+    where ticket_id = #{ticketId,jdbcType=INTEGER}
+  </update>
+</mapper>

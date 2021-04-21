@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.mapper.AdminInfoMapper">
+  <resultMap id="BaseResultMap" type="com.system.domain.AdminInfo">
+    <id column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="admin_name" jdbcType="VARCHAR" property="adminName" />
+    <result column="admin_password" jdbcType="VARCHAR" property="adminPassword" />
+    <result column="admin_account" jdbcType="REAL" property="adminAccount" />
+    <result column="admin_login" jdbcType="TIMESTAMP" property="adminLogin" />
+    <result column="admin_exit" jdbcType="TIMESTAMP" property="adminExit" />
+    <result column="admin_phone" jdbcType="VARCHAR" property="adminPhone" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    admin_id, admin_name, admin_password, admin_account, admin_login, admin_exit, admin_phone
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Admin_info
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByAdminName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from Admin_info
+    where admin_name = #{adminName,jdbcType=VARCHAR}
+  </select>
+  <select id="selectListByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from Admin_info
+    where admin_name like concat ('%',#{searchtext},'%')
+  </select>
+  <select id="selectAlladmin" resultMap="BaseResultMap">
+    select *
+    from Admin_info
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from Admin_info
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.system.domain.AdminInfo">
+    insert into Admin_info (admin_id, admin_name, admin_password, 
+      admin_account, admin_login, admin_exit, 
+      admin_phone)
+    values (#{adminId,jdbcType=INTEGER}, #{adminName,jdbcType=VARCHAR}, #{adminPassword,jdbcType=VARCHAR}, 
+      #{adminAccount,jdbcType=REAL}, #{adminLogin,jdbcType=TIMESTAMP}, #{adminExit,jdbcType=TIMESTAMP}, 
+      #{adminPhone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.system.domain.AdminInfo">
+    insert into Admin_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="adminName != null">
+        admin_name,
+      </if>
+      <if test="adminPassword != null">
+        admin_password,
+      </if>
+      <if test="adminAccount != null">
+        admin_account,
+      </if>
+      <if test="adminLogin != null">
+        admin_login,
+      </if>
+      <if test="adminExit != null">
+        admin_exit,
+      </if>
+      <if test="adminPhone != null">
+        admin_phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="adminName != null">
+        #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPassword != null">
+        #{adminPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="adminAccount != null">
+        #{adminAccount,jdbcType=REAL},
+      </if>
+      <if test="adminLogin != null">
+        #{adminLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminExit != null">
+        #{adminExit,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminPhone != null">
+        #{adminPhone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.system.domain.AdminInfo">
+    update Admin_info
+    <set>
+      <if test="adminName != null">
+        admin_name = #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPassword != null">
+        admin_password = #{adminPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="adminAccount != null">
+        admin_account = #{adminAccount,jdbcType=REAL},
+      </if>
+      <if test="adminLogin != null">
+        admin_login = #{adminLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminExit != null">
+        admin_exit = #{adminExit,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminPhone != null">
+        admin_phone = #{adminPhone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.system.domain.AdminInfo">
+    update Admin_info
+    set admin_name = #{adminName,jdbcType=VARCHAR},
+      admin_password = #{adminPassword,jdbcType=VARCHAR},
+      admin_account = #{adminAccount,jdbcType=REAL},
+      admin_login = #{adminLogin,jdbcType=TIMESTAMP},
+      admin_exit = #{adminExit,jdbcType=TIMESTAMP},
+      admin_phone = #{adminPhone,jdbcType=VARCHAR}
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </update>
+</mapper>

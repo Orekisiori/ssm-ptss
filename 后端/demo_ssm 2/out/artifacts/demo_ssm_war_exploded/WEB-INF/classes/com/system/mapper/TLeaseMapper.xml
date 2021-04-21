@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.mapper.TLeaseMapper">
+  <resultMap id="BaseResultMap" type="com.system.domain.TLease">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="l_id" jdbcType="INTEGER" property="lId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="f_id" jdbcType="INTEGER" property="fId" />
+    <result column="f_number" jdbcType="INTEGER" property="fNumber" />
+    <result column="l_rent" jdbcType="INTEGER" property="lRent" />
+    <result column="crate_time" jdbcType="TIMESTAMP" property="crateTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, l_id, user_id, f_id, f_number, l_rent, crate_time, end_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_lease
+    where l_id = #{lId,jdbcType=INTEGER}
+  </select>
+  <select id="getLeaseList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_lease
+  </select>
+  <select id="selectKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_lease
+    where  f_id like concat ('%',#{fId},'%')
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_lease
+    where l_id = #{lId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.system.domain.TLease">
+    insert into t_lease (id, l_id, user_id,
+      f_id, f_number, l_rent,
+      crate_time, end_time)
+    values (#{id,jdbcType=INTEGER}, #{lId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+      #{fId,jdbcType=INTEGER}, #{fNumber,jdbcType=INTEGER}, #{lRent,jdbcType=INTEGER},
+      #{crateTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.system.domain.TLease">
+    insert into t_lease
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="lId != null">
+        l_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="fId != null">
+        f_id,
+      </if>
+      <if test="fNumber != null">
+        f_number,
+      </if>
+      <if test="lRent != null">
+        l_rent,
+      </if>
+      <if test="crateTime != null">
+        crate_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="lId != null">
+        #{lId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="fId != null">
+        #{fId,jdbcType=INTEGER},
+      </if>
+      <if test="fNumber != null">
+        #{fNumber,jdbcType=INTEGER},
+      </if>
+      <if test="lRent != null">
+        #{lRent,jdbcType=INTEGER},
+      </if>
+      <if test="crateTime != null">
+        #{crateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.system.domain.TLease">
+    update t_lease
+    <set>
+      <if test="lId != null">
+        l_id = #{lId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="fId != null">
+        f_id = #{fId,jdbcType=INTEGER},
+      </if>
+      <if test="fNumber != null">
+        f_number = #{fNumber,jdbcType=INTEGER},
+      </if>
+      <if test="lRent != null">
+        l_rent = #{lRent,jdbcType=INTEGER},
+      </if>
+      <if test="crateTime != null">
+        crate_time = #{crateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.system.domain.TLease">
+    update t_lease
+    set l_id = #{lId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      f_id = #{fId,jdbcType=INTEGER},
+      f_number = #{fNumber,jdbcType=INTEGER},
+      l_rent = #{lRent,jdbcType=INTEGER},
+      crate_time = #{crateTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

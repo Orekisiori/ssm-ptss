@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!--指定了驱动jar包的位置，这个是针对下载Jar包的方式，因为用了maven所以这个就用不上了-->
+    <!-- <classPathEntry location="D:/mvn_repository_new/mysql/mysql-connector-java/5.1.45/mysql-connector-java-5.1.45.jar"/>-->
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressDate" value="false"/>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!--数据库链接URL，用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/Air_Booking_info?serverTimezone=Asia/Shanghai" userId="root"
+                        password="hch134520">
+            <!--<property name="serverTimezone" value="UTC"/>-->
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
+        <!--指定生成entity实体类的具体位置-->
+        <javaModelGenerator targetPackage="com.system.domain" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!--指定生成mybatis映射xml文件的包名和位置-->
+        <sqlMapGenerator targetPackage="com.system.mapper" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!--指定生成mapper接口的具体位置-->
+        <javaClientGenerator targetPackage="com.system.mapper" targetProject="./src/main/java" type="XMLMAPPER">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!--&lt;!&ndash; 要生成entity/mapper的表名及自定义的DO名 &ndash;&gt;-->
+        <!--<table tableName="users" domainObjectName="User"/>-->
+
+        <!--<table tableName="product_brand" domainObjectName="ProductBrand" />-->
+
+        <!--mybatis generator代码生成器在默认的情况下会生成对于表实体类的一个Examle类, 可以更改生成器的配置可避免生成Examle类,
+        enableCountByExample,enableUpdateByExample,enableDeleteByExample,enableSelectByExample等配置为false后, 就不会生成生成Examle类了 -->
+
+
+        <table tableName="Show_table"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"/>
+
+    </context>
+</generatorConfiguration>

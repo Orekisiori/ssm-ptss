@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.mapper.TFlowInfoMapper">
+  <resultMap id="BaseResultMap" type="com.system.domain.TFlowInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="f_id" jdbcType="INTEGER" property="fId" />
+    <result column="f_name" jdbcType="VARCHAR" property="fName" />
+    <result column="f_imgpath" jdbcType="VARCHAR" property="fImgpath" />
+    <result column="f_price" jdbcType="BIGINT" property="fPrice" />
+    <result column="f_info" jdbcType="VARCHAR" property="fInfo" />
+    <result column="f_categoryid" jdbcType="INTEGER" property="fCategoryid" />
+    <result column="f_stock" jdbcType="INTEGER" property="fStock" />
+    <result column="f_status" jdbcType="VARCHAR" property="fStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, f_id, f_name, f_imgpath, f_price, f_info, f_categoryid, f_stock, f_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_flow_info
+    where f_id = #{fId,jdbcType=INTEGER}
+  </select>
+  <select id="getFlowInfoList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_flow_info
+  </select>
+  <select id="selectByfIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_flow_info
+    where f_id in (
+    <foreach collection="list" item="fIds" separator=",">
+      #{fIds,jdbcType=INTEGER}
+    </foreach>
+    )
+  </select>
+  <select id="getStock" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_flow_info
+    where f_name = #{fName,jdbcType=VARCHAR}
+  </select>
+  <select id="selectKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_flow_info
+    where  f_id like concat ('%',#{fId},'%')
+    or f_name like concat ('%',#{fName},'%')
+    or f_info like concat ('%',#{fInfo},'%')
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_flow_info
+    where f_id = #{fId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.system.domain.TFlowInfo">
+    insert into t_flow_info (id, f_id, f_name,
+      f_imgpath, f_price, f_info,
+      f_categoryid, f_stock, f_status
+      )
+    values (#{id,jdbcType=INTEGER}, #{fId,jdbcType=INTEGER}, #{fName,jdbcType=VARCHAR},
+      #{fImgpath,jdbcType=VARCHAR}, #{fPrice,jdbcType=BIGINT}, #{fInfo,jdbcType=VARCHAR},
+      #{fCategoryid,jdbcType=INTEGER}, #{fStock,jdbcType=INTEGER}, #{fStatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.system.domain.TFlowInfo">
+    insert into t_flow_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fId != null">
+        f_id,
+      </if>
+      <if test="fName != null">
+        f_name,
+      </if>
+      <if test="fImgpath != null">
+        f_imgpath,
+      </if>
+      <if test="fPrice != null">
+        f_price,
+      </if>
+      <if test="fInfo != null">
+        f_info,
+      </if>
+      <if test="fCategoryid != null">
+        f_categoryid,
+      </if>
+      <if test="fStock != null">
+        f_stock,
+      </if>
+      <if test="fStatus != null">
+        f_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fId != null">
+        #{fId,jdbcType=INTEGER},
+      </if>
+      <if test="fName != null">
+        #{fName,jdbcType=VARCHAR},
+      </if>
+      <if test="fImgpath != null">
+        #{fImgpath,jdbcType=VARCHAR},
+      </if>
+      <if test="fPrice != null">
+        #{fPrice,jdbcType=BIGINT},
+      </if>
+      <if test="fInfo != null">
+        #{fInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="fCategoryid != null">
+        #{fCategoryid,jdbcType=INTEGER},
+      </if>
+      <if test="fStock != null">
+        #{fStock,jdbcType=INTEGER},
+      </if>
+      <if test="fStatus != null">
+        #{fStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.system.domain.TFlowInfo">
+    update t_flow_info
+    <set>
+      <if test="fId != null">
+        f_id = #{fId,jdbcType=INTEGER},
+      </if>
+      <if test="fName != null">
+        f_name = #{fName,jdbcType=VARCHAR},
+      </if>
+      <if test="fImgpath != null">
+        f_imgpath = #{fImgpath,jdbcType=VARCHAR},
+      </if>
+      <if test="fPrice != null">
+        f_price = #{fPrice,jdbcType=BIGINT},
+      </if>
+      <if test="fInfo != null">
+        f_info = #{fInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="fCategoryid != null">
+        f_categoryid = #{fCategoryid,jdbcType=INTEGER},
+      </if>
+      <if test="fStock != null">
+        f_stock = #{fStock,jdbcType=INTEGER},
+      </if>
+      <if test="fStatus != null">
+        f_status = #{fStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.system.domain.TFlowInfo">
+    update t_flow_info
+    set f_id = #{fId,jdbcType=INTEGER},
+      f_name = #{fName,jdbcType=VARCHAR},
+      f_imgpath = #{fImgpath,jdbcType=VARCHAR},
+      f_price = #{fPrice,jdbcType=BIGINT},
+      f_info = #{fInfo,jdbcType=VARCHAR},
+      f_categoryid = #{fCategoryid,jdbcType=INTEGER},
+      f_stock = #{fStock,jdbcType=INTEGER},
+      f_status = #{fStatus,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateStock" parameterType="com.system.domain.TFlowInfo">
+    update t_flow_info
+    set f_stock = #{fStock,jdbcType=INTEGER}
+    where f_name = #{fName,jdbcType=INTEGER}
+  </update>
+</mapper>

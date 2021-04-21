@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.mapper.TFlowSoldMapper">
+  <resultMap id="BaseResultMap" type="com.system.domain.TFlowSold">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="f_id" jdbcType="INTEGER" property="fId" />
+    <result column="f_name" jdbcType="VARCHAR" property="fName" />
+    <result column="f_price" jdbcType="BIGINT" property="fPrice" />
+    <result column="f_number" jdbcType="INTEGER" property="fNumber" />
+    <result column="crate_time" jdbcType="TIMESTAMP" property="crateTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, f_id, f_name, f_price, f_number,crate_time,update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_flow_sold
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getStatisticsList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_flow_sold
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_flow_sold
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.system.domain.TFlowSold">
+    insert into t_flow_sold (id, f_id, f_name,
+      f_price, f_number,crate_time,update_time)
+    values (#{id,jdbcType=INTEGER}, #{fId,jdbcType=INTEGER}, #{fName,jdbcType=VARCHAR},
+      #{fPrice,jdbcType=BIGINT}, #{fNumber,jdbcType=INTEGER},#{crateTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertFlowSolds">
+    insert into t_flow_sold (id, f_id, f_name,
+    f_price, f_number,crate_time,update_time)
+    values
+    <foreach collection="list" item="flowsolds" separator=",">
+      (#{flowsolds.id,jdbcType=INTEGER}, #{flowsolds.fId,jdbcType=INTEGER}, #{flowsolds.fName,jdbcType=VARCHAR},
+      #{flowsolds.fPrice,jdbcType=BIGINT}, #{flowsolds.fNumber,jdbcType=INTEGER},#{flowsolds.crateTime,jdbcType=TIMESTAMP},#{flowsolds.updateTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.system.domain.TFlowSold">
+    insert into t_flow_sold
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fId != null">
+        f_id,
+      </if>
+      <if test="fName != null">
+        f_name,
+      </if>
+      <if test="fPrice != null">
+        f_price,
+      </if>
+      <if test="fNumber != null">
+        f_number,
+      </if>
+      <if test="crateTime != null">
+        crate_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fId != null">
+        #{fId,jdbcType=INTEGER},
+      </if>
+      <if test="fName != null">
+        #{fName,jdbcType=VARCHAR},
+      </if>
+      <if test="fPrice != null">
+        #{fPrice,jdbcType=BIGINT},
+      </if>
+      <if test="fNumber != null">
+        #{fNumber,jdbcType=INTEGER},
+      </if>
+      <if test="crateTime != null">
+        #{crateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.system.domain.TFlowSold">
+    update t_flow_sold
+    <set>
+      <if test="fId != null">
+        f_id = #{fId,jdbcType=INTEGER},
+      </if>
+      <if test="fName != null">
+        f_name = #{fName,jdbcType=VARCHAR},
+      </if>
+      <if test="fPrice != null">
+        f_price = #{fPrice,jdbcType=BIGINT},
+      </if>
+      <if test="fNumber != null">
+        f_number = #{fNumber,jdbcType=INTEGER},
+      </if>
+      <if test="crateTime != null">
+        crate_time = #{crateTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.system.domain.TFlowSold">
+    update t_flow_sold
+    set f_id = #{fId,jdbcType=INTEGER},
+      f_name = #{fName,jdbcType=VARCHAR},
+      f_price = #{fPrice,jdbcType=BIGINT},
+      f_number = #{fNumber,jdbcType=INTEGER},
+      crate_time = #{crateTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

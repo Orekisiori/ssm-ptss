@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.mapper.AirlineInfoMapper">
+  <resultMap id="BaseResultMap" type="com.system.domain.AirlineInfo">
+    <id column="airline_id" jdbcType="INTEGER" property="airlineId" />
+    <result column="airline_name" jdbcType="VARCHAR" property="airlineName" />
+    <result column="airline_password" jdbcType="VARCHAR" property="airlinePassword" />
+    <result column="airline_identity" jdbcType="VARCHAR" property="airlineIdentity" />
+    <result column="airline_phone" jdbcType="VARCHAR" property="airlinePhone" />
+    <result column="registerdate" jdbcType="TIMESTAMP" property="registerdate" />
+    <result column="airline_account" jdbcType="REAL" property="airlineAccount" />
+    <result column="isvalid" jdbcType="VARCHAR" property="isvalid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    airline_id, airline_name, airline_password, airline_identity, airline_phone, registerdate, 
+    airline_account, isvalid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Airline_info
+    where airline_id = #{airlineId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByAirlineName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from Airline_info
+    where airline_name = #{airlineName,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from Airline_info
+  </select>
+  <select id="selectListByName" resultMap="BaseResultMap">
+    select *
+    from Airline_info
+    where airline_name like concat ('%',#{searchtext},'%')
+  </select>
+  <select id="selectAllairlineName" resultMap="BaseResultMap">
+    select airline_name
+    from Airline_info
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from Airline_info
+    where airline_id = #{airlineId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.system.domain.AirlineInfo">
+    insert into Airline_info (airline_id, airline_name, airline_password, 
+      airline_identity, airline_phone, registerdate, 
+      airline_account, isvalid)
+    values (#{airlineId,jdbcType=INTEGER}, #{airlineName,jdbcType=VARCHAR}, #{airlinePassword,jdbcType=VARCHAR}, 
+      #{airlineIdentity,jdbcType=VARCHAR}, #{airlinePhone,jdbcType=VARCHAR}, #{registerdate,jdbcType=TIMESTAMP}, 
+      #{airlineAccount,jdbcType=REAL}, #{isvalid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.system.domain.AirlineInfo">
+    insert into Airline_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="airlineId != null">
+        airline_id,
+      </if>
+      <if test="airlineName != null">
+        airline_name,
+      </if>
+      <if test="airlinePassword != null">
+        airline_password,
+      </if>
+      <if test="airlineIdentity != null">
+        airline_identity,
+      </if>
+      <if test="airlinePhone != null">
+        airline_phone,
+      </if>
+      <if test="registerdate != null">
+        registerdate,
+      </if>
+      <if test="airlineAccount != null">
+        airline_account,
+      </if>
+      <if test="isvalid != null">
+        isvalid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="airlineId != null">
+        #{airlineId,jdbcType=INTEGER},
+      </if>
+      <if test="airlineName != null">
+        #{airlineName,jdbcType=VARCHAR},
+      </if>
+      <if test="airlinePassword != null">
+        #{airlinePassword,jdbcType=VARCHAR},
+      </if>
+      <if test="airlineIdentity != null">
+        #{airlineIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="airlinePhone != null">
+        #{airlinePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="registerdate != null">
+        #{registerdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="airlineAccount != null">
+        #{airlineAccount,jdbcType=REAL},
+      </if>
+      <if test="isvalid != null">
+        #{isvalid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.system.domain.AirlineInfo">
+    update Airline_info
+    <set>
+      <if test="airlineName != null">
+        airline_name = #{airlineName,jdbcType=VARCHAR},
+      </if>
+      <if test="airlinePassword != null">
+        airline_password = #{airlinePassword,jdbcType=VARCHAR},
+      </if>
+      <if test="airlineIdentity != null">
+        airline_identity = #{airlineIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="airlinePhone != null">
+        airline_phone = #{airlinePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="registerdate != null">
+        registerdate = #{registerdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="airlineAccount != null">
+        airline_account = #{airlineAccount,jdbcType=REAL},
+      </if>
+      <if test="isvalid != null">
+        isvalid = #{isvalid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where airline_id = #{airlineId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.system.domain.AirlineInfo">
+    update Airline_info
+    set airline_name = #{airlineName,jdbcType=VARCHAR},
+      airline_password = #{airlinePassword,jdbcType=VARCHAR},
+      airline_identity = #{airlineIdentity,jdbcType=VARCHAR},
+      airline_phone = #{airlinePhone,jdbcType=VARCHAR},
+      registerdate = #{registerdate,jdbcType=TIMESTAMP},
+      airline_account = #{airlineAccount,jdbcType=REAL},
+      isvalid = #{isvalid,jdbcType=VARCHAR}
+    where airline_id = #{airlineId,jdbcType=INTEGER}
+  </update>
+</mapper>

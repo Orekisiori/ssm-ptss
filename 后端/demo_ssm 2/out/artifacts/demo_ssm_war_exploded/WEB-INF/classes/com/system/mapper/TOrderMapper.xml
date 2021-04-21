@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.mapper.TOrderMapper">
+  <resultMap id="BaseResultMap" type="com.system.domain.TOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="order_price" jdbcType="BIGINT" property="orderPrice" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="order_static" jdbcType="VARCHAR" property="orderStatic" />
+    <result column="order_user" jdbcType="VARCHAR" property="orderUser" />
+    <result column="order_tel" jdbcType="VARCHAR" property="orderTel" />
+    <result column="order_addr" jdbcType="VARCHAR" property="orderAddr" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, order_price, order_id, order_static, order_user, order_tel, order_addr,
+    create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_order
+    where  order_id like concat ('%',#{orderId},'%')
+    or order_static like concat ('%',#{orderStatic},'%')
+    or order_user like concat ('%',#{orderUser},'%')
+    or order_tel like concat ('%',#{orderTel},'%')
+    or order_addr like concat ('%',#{orderAddr},'%')
+  </select>
+  <select id="getOrderList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_order
+  </select>
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_order
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.system.domain.TOrder">
+    insert into t_order (id, user_id, order_price,
+      order_id, order_static, order_user,
+      order_tel, order_addr, create_time,
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{orderPrice,jdbcType=BIGINT},
+      #{orderId,jdbcType=INTEGER}, #{orderStatic,jdbcType=VARCHAR}, #{orderUser,jdbcType=VARCHAR},
+      #{orderTel,jdbcType=VARCHAR}, #{orderAddr,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.system.domain.TOrder">
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="orderPrice != null">
+        order_price,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="orderStatic != null">
+        order_static,
+      </if>
+      <if test="orderUser != null">
+        order_user,
+      </if>
+      <if test="orderTel != null">
+        order_tel,
+      </if>
+      <if test="orderAddr != null">
+        order_addr,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="orderPrice != null">
+        #{orderPrice,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatic != null">
+        #{orderStatic,jdbcType=VARCHAR},
+      </if>
+      <if test="orderUser != null">
+        #{orderUser,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTel != null">
+        #{orderTel,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAddr != null">
+        #{orderAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.system.domain.TOrder">
+    update t_order
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="orderPrice != null">
+        order_price = #{orderPrice,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatic != null">
+        order_static = #{orderStatic,jdbcType=VARCHAR},
+      </if>
+      <if test="orderUser != null">
+        order_user = #{orderUser,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTel != null">
+        order_tel = #{orderTel,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAddr != null">
+        order_addr = #{orderAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.system.domain.TOrder">
+    update t_order
+    set user_id = #{userId,jdbcType=INTEGER},
+      order_price = #{orderPrice,jdbcType=BIGINT},
+      order_id = #{orderId,jdbcType=INTEGER},
+      order_static = #{orderStatic,jdbcType=VARCHAR},
+      order_user = #{orderUser,jdbcType=VARCHAR},
+      order_tel = #{orderTel,jdbcType=VARCHAR},
+      order_addr = #{orderAddr,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateStatic" parameterType="com.system.domain.TOrder">
+    update t_order
+    set order_static = '1'
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+</mapper>

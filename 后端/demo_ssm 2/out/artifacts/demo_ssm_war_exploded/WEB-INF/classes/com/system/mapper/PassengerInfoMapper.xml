@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.mapper.PassengerInfoMapper">
+  <resultMap id="BaseResultMap" type="com.system.domain.PassengerInfo">
+    <id column="passenger_id" jdbcType="INTEGER" property="passengerId" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="passenger_name" jdbcType="VARCHAR" property="passengerName" />
+    <result column="passenger_password" jdbcType="VARCHAR" property="passengerPassword" />
+    <result column="passenger_gender" jdbcType="VARCHAR" property="passengerGender" />
+    <result column="passenger_identity" jdbcType="VARCHAR" property="passengerIdentity" />
+    <result column="passenger_phone" jdbcType="VARCHAR" property="passengerPhone" />
+    <result column="passenger_account" jdbcType="REAL" property="passengerAccount" />
+    <result column="register_time" jdbcType="TIMESTAMP" property="registerTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    passenger_id, avatar, passenger_name, passenger_password, passenger_gender, passenger_identity, 
+    passenger_phone, passenger_account, register_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from Passenger_info
+    where passenger_id = #{passengerId,jdbcType=INTEGER}
+  </select>
+  <select id="getList" resultMap="BaseResultMap">
+    select *
+    from Passenger_info
+  </select>
+  <select id="selectByPassengerName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from Passenger_info
+    where passenger_name = #{passengerName,jdbcType=VARCHAR}
+  </select>
+  <select id="selectListByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from Passenger_info
+    where passenger_name like concat ('%',#{searchtext},'%')
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from Passenger_info
+    where passenger_id = #{passengerId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.system.domain.PassengerInfo">
+    insert into Passenger_info (passenger_id, avatar, passenger_name, 
+      passenger_password, passenger_gender, passenger_identity, 
+      passenger_phone, passenger_account, register_time
+      )
+    values (#{passengerId,jdbcType=INTEGER}, #{avatar,jdbcType=VARCHAR}, #{passengerName,jdbcType=VARCHAR}, 
+      #{passengerPassword,jdbcType=VARCHAR}, #{passengerGender,jdbcType=VARCHAR}, #{passengerIdentity,jdbcType=VARCHAR}, 
+      #{passengerPhone,jdbcType=VARCHAR}, #{passengerAccount,jdbcType=REAL}, #{registerTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.system.domain.PassengerInfo">
+    insert into Passenger_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="passengerId != null">
+        passenger_id,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+      <if test="passengerName != null">
+        passenger_name,
+      </if>
+      <if test="passengerPassword != null">
+        passenger_password,
+      </if>
+      <if test="passengerGender != null">
+        passenger_gender,
+      </if>
+      <if test="passengerIdentity != null">
+        passenger_identity,
+      </if>
+      <if test="passengerPhone != null">
+        passenger_phone,
+      </if>
+      <if test="passengerAccount != null">
+        passenger_account,
+      </if>
+      <if test="registerTime != null">
+        register_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="passengerId != null">
+        #{passengerId,jdbcType=INTEGER},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerName != null">
+        #{passengerName,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerPassword != null">
+        #{passengerPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerGender != null">
+        #{passengerGender,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerIdentity != null">
+        #{passengerIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerPhone != null">
+        #{passengerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerAccount != null">
+        #{passengerAccount,jdbcType=REAL},
+      </if>
+      <if test="registerTime != null">
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.system.domain.PassengerInfo">
+    update Passenger_info
+    <set>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerName != null">
+        passenger_name = #{passengerName,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerPassword != null">
+        passenger_password = #{passengerPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerGender != null">
+        passenger_gender = #{passengerGender,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerIdentity != null">
+        passenger_identity = #{passengerIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerPhone != null">
+        passenger_phone = #{passengerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="passengerAccount != null">
+        passenger_account = #{passengerAccount,jdbcType=REAL},
+      </if>
+      <if test="registerTime != null">
+        register_time = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where passenger_id = #{passengerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.system.domain.PassengerInfo">
+    update Passenger_info
+    set avatar = #{avatar,jdbcType=VARCHAR},
+      passenger_name = #{passengerName,jdbcType=VARCHAR},
+      passenger_password = #{passengerPassword,jdbcType=VARCHAR},
+      passenger_gender = #{passengerGender,jdbcType=VARCHAR},
+      passenger_identity = #{passengerIdentity,jdbcType=VARCHAR},
+      passenger_phone = #{passengerPhone,jdbcType=VARCHAR},
+      passenger_account = #{passengerAccount,jdbcType=REAL},
+      register_time = #{registerTime,jdbcType=TIMESTAMP}
+    where passenger_id = #{passengerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyCharge">
+    update Passenger_info
+    set passenger_account = #{passengerAccount,jdbcType=REAL}
+    where passenger_id = #{passengerId,jdbcType=INTEGER};
+  </update>
+</mapper>
